@@ -1,4 +1,10 @@
 
+/*
+Pins A0 and A1 should be connected to the middle rail of potentiometers whose outer rails are connected to +5 and GND. They adjust the duty cycle and frequency.
+
+The two output pins are pin 5 and pin 11. They will always be identical frequency and duty cycle, but 180 degrees phase shifted from each other.
+*/
+
 int user_cycles;
 int user_duty;
 
