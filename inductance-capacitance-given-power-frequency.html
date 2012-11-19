@@ -79,6 +79,35 @@ function out(id, val) {
     document.getElementById(id).innerHTML = val;
 }
 
+function out_units(id, val, unit) {
+	var descriptor = "",
+		place_count = 0,
+		descriptors = {
+		    "0":"",
+			"-1":"milli",
+			"-2":"micro",
+			"-3":"nano",
+			"-4":"pico",
+			"1":"kilo",
+			"2":"mega",
+			"3":"giga",
+			"4":"tera"
+		};
+
+	if (val > 1) {
+		while (val > 1000) {
+			place_count++;
+			val = val / 1000;
+		}
+	} else {
+		while (val < 1) {
+			place_count--;
+			val = val * 1000;
+	}
+	descriptor = descriptors[place_count];
+	out(id, val + " " + descriptor + unit);
+}
+
 function choose_preset(val) {
     document.getElementById('freq').value = val;
     set_frequency();
@@ -107,28 +136,15 @@ function set_frequency() {
 	);
     update_presets(f);
 
-    var fout = f,
-        magnitude = 0;
-    while (fout > 1000) {
-        magnitude++;
-        fout = fout / 1000;
-        if (magnitude === 3) break;
-    }
-    out('f', fout + {
-        0: ' c/sec',
-        1: ' Kc/sec',
-        2: ' Mc/sec',
-        3: ' Gc/sec'
-        // You have no business using teracycles
-    }[magnitude]);
-    out('p', p);
-	out('V', V);
+	out_unit('f', f, "c/sec");
+    out_unit('p', p, "watts");
+	out_unit('V', V, "volts");
 
     var c = p / (2 * f * (V*V)),
 		l = (2 * (V * V))/((Math.PI * Math.PI) * p * f);
 
-    out('c', c);
-    out('l', l);
+    out_unit('c', c, "farad");
+    out_unit('l', l, "henries");
 
     return [c, l];
 }
