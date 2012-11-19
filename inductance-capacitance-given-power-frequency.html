@@ -45,21 +45,34 @@ window.onload = function() {
 		ypoints[0][i] = vals[0];
 		ypoints[1][i] = vals[1];
     }
-    var r = Raphael("line_chart"),
+    var cap = Raphael("capacitance_chart"),
+		ind = Raphael("inductance_chart"),
         txtattr = { font: "12px sans-serif" };
 
         
-    var lines = r.linechart(50, 10, 640, 480, xpoints, ypoints, { nostroke: false, symbol: "circle", axis: "0 0 1 1"}).hoverColumn(function () {
-        this.tags = r.set();
+    var lines = cap.linechart(50, 10, 640, 480, xpoints, ypoints[0], { nostroke: false, symbol: "circle", axis: "0 0 1 1"}).hoverColumn(function () {
+        this.tags = cap.set();
         
         for (var i = 0, ii = this.y.length; i < ii; i++) {
-            this.tags.push(r.tag(this.x, this.y[i], this.values[i] + ' cm', 0, 10).insertBefore(this).attr([{ fill: "#fff" }, { fill: this.symbols[i].attr("fill") }]));
+            this.tags.push(r.tag(this.x, this.y[i], this.values[i] + ' F', 0, 10).insertBefore(this).attr([{ fill: "#fff" }, { fill: this.symbols[i].attr("fill") }]));
         }
     }, function () {
         this.tags && this.tags.remove();
     });
 
     lines.symbols.attr({ r: 6 });
+
+    var lines2 = ind.linechart(50, 10, 640, 480, xpoints, ypoints[1], { nostroke: false, symbol: "circle", axis: "0 0 1 1"}).hoverColumn(function () {
+        this.tags = ind.set();
+        
+        for (var i = 0, ii = this.y.length; i < ii; i++) {
+            this.tags.push(r.tag(this.x, this.y[i], this.values[i] + ' F', 0, 10).insertBefore(this).attr([{ fill: "#fff" }, { fill: this.symbols[i].attr("fill") }]));
+        }
+    }, function () {
+        this.tags && this.tags.remove();
+    });
+
+    lines2.symbols.attr({ r: 6 });
 }
 
 function out(id, val) {
@@ -137,8 +150,10 @@ function set_frequency() {
 
 </p>
 
-<div id="line_chart"></div>
+<div id="capacitance_chart"></div>
 <p>X axis, frequency; Y axis, capacitance</p>
+<div id="inductance_chart"></div>
+<p>X axis, frequency; Y axis, inducttance</p>
 
 <form onsubmit="set_frequency(); return false">
     <label for="freq">Frequency: </label>
