@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Dollard Tesla Coil Calculator</title>
+        <title>DC Resonant Charging Circuit Calculator</title>
         <style type="text/css">
 
 body {
@@ -62,29 +62,6 @@ window.onload = function() {
 
 function out(id, val) {
     document.getElementById(id).innerHTML = val;
-}
-
-function out_cm(id, val) {
-    var metric = ' cm (',
-        imperial = ' in)',
-        inchval = val * 0.3937,
-        meters = 0,
-        feet = 0;
-
-    if (val > 100) {
-        metric = ' meters (';
-        val = val / 100;
-    }
-    if (val < 1) {
-        metric = ' mm (';
-        val = val * 10;
-    }
-
-    if (inchval > 12) {
-        imperial = ' feet)';
-        inchval = inchval / 12;
-    }
-    document.getElementById(id).innerHTML = val.toPrecision() + metric + inchval + imperial;
 }
 
 function choose_preset(val) {
@@ -150,16 +127,23 @@ function set_frequency() {
     </head>
     <body>
 
-<h1>Dollard Tesla Coil Calculator</h1>
+<h1>DC Resonant Charging Circuit Calculator</h1>
+
+<p>A calculator for calculating a
+	
+	<a href="http://www.richieburnett.co.uk/dcreschg.html#resonant">DC Resonant Charging Circuit</a>
+
+</p>
 
 <div id="line_chart"></div>
-<p>X axis, frequency; Y axis, secondary diameter, cm</p>
+<p>X axis, frequency; Y axis, capacitance</p>
 
 <form onsubmit="set_frequency(); return false">
     <label for="freq">Frequency: </label>
     <input id="freq" type="text" name="freq" value="1000000"> c/sec
     <label for="power">Power: </label>
 	<input id="power" name="freq" value="70"> watts
+	<input id="voltage" name="voltage" value="2000"> volts
     <input type="submit" value="Calculate">
     <select onchange="choose_preset(this.value)">
         <option>1000</option>
@@ -174,7 +158,7 @@ function set_frequency() {
 
 
 
-<h2>Appropriate Capacitance and Inductance</h2>
+<h2>Capacitance and Inductance</h2>
 <p>`f =` <span class="out" id="f">?</span></p>
 
 <p>`p =` <span class="out" id="p">?</span></p>
