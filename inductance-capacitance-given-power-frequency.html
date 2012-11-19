@@ -16,7 +16,7 @@ body {
     text-align: right;
 }
 
-#line_chart {
+.chart {
     width: 720px;
     height: 512px;
 }
@@ -150,9 +150,9 @@ function set_frequency() {
 
 </p>
 
-<div id="capacitance_chart"></div>
+<div class="chart"></div>
 <p>X axis, frequency; Y axis, capacitance</p>
-<div id="inductance_chart"></div>
+<div class="chart"></div>
 <p>X axis, frequency; Y axis, inductance</p>
 
 <form onsubmit="set_frequency(); return false">
