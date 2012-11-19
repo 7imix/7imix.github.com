@@ -79,7 +79,7 @@ function out(id, val) {
     document.getElementById(id).innerHTML = val;
 }
 
-function out_units(id, val, unit) {
+function out_unit(id, val, unit) {
 	var descriptor = "",
 		place_count = 0,
 		descriptors = {
@@ -103,7 +103,8 @@ function out_units(id, val, unit) {
 		while (val < 1) {
 			place_count--;
 			val = val * 1000;
-	}
+		}
+  }
 	descriptor = descriptors[place_count];
 	out(id, val + " " + descriptor + unit);
 }
