@@ -66,7 +66,7 @@ window.onload = function() {
         this.tags = ind.set();
         
         for (var i = 0, ii = this.y.length; i < ii; i++) {
-            this.tags.push(r.tag(this.x, this.y[i], this.values[i] + ' F', 0, 10).insertBefore(this).attr([{ fill: "#fff" }, { fill: this.symbols[i].attr("fill") }]));
+            this.tags.push(r.tag(this.x, this.y[i], this.values[i] + ' H', 0, 10).insertBefore(this).attr([{ fill: "#fff" }, { fill: this.symbols[i].attr("fill") }]));
         }
     }, function () {
         this.tags && this.tags.remove();
@@ -153,7 +153,7 @@ function set_frequency() {
 <div id="capacitance_chart"></div>
 <p>X axis, frequency; Y axis, capacitance</p>
 <div id="inductance_chart"></div>
-<p>X axis, frequency; Y axis, inducttance</p>
+<p>X axis, frequency; Y axis, inductance</p>
 
 <form onsubmit="set_frequency(); return false">
     <label for="freq">Frequency: </label>
