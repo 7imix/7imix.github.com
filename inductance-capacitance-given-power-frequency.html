@@ -36,12 +36,14 @@ span.out {
 window.onload = function() {
     var freq = 60,
         xpoints = new Array(20),
-        ypoints = new Array(20);
+        ypoints = [new Array(20), new Array(20)];
     for (var i = 0; i < 20; i++) {
         xpoints[i] = freq;
         freq += 100;
         document.getElementById('freq').value = freq;
-        ypoints[i] = set_frequency();
+		var vals = set_frequency();
+		ypoints[0][i] = vals[0];
+		ypoints[1][i] = vals[1];
     }
     var r = Raphael("line_chart"),
         txtattr = { font: "12px sans-serif" };
@@ -115,7 +117,7 @@ function set_frequency() {
     out('c', c);
     out('l', l);
 
-    return c;
+    return [c, l];
 }
 
 -->
