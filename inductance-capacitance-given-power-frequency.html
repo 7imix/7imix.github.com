@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Dollard Tesla Coil Calculator</title>
+        <style type="text/css">
+
+body {
+    font-family: Helvetica, Verdana, Arial, sans-serif;
+    padding: 1em;
+}
+
+#background {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    text-align: right;
+}
+
+#line_chart {
+    width: 720px;
+    height: 512px;
+}
+
+h1 { margin-top: 0px; }
+
+span.out {
+    color: blue;
+}
+        </style>
+        <script src="raphael-min.js" type="text/javascript"></script>
+        <script src="g.raphael-min.js" type="text/javascript"></script>
+        <script src="g.line-min.js" type="text/javascript"></script>
+
+        <script type="text/javascript">
+<!--
+window.onload = function() {
+    var freq = 100000,
+        xpoints = new Array(9),
+        ypoints = new Array(9);
+    for (var i = 0; i < 9; i++) {
+        xpoints[i] = freq;
+        freq += 100000;
+        document.getElementById('freq').value = freq;
+        ypoints[i] = set_frequency();
+    }
+    var r = Raphael("line_chart"),
+        txtattr = { font: "12px sans-serif" };
+
+        
+    var lines = r.linechart(50, 10, 640, 480, xpoints, ypoints, { nostroke: false, symbol: "circle", axis: "0 0 1 1"}).hoverColumn(function () {
+        this.tags = r.set();
+        
+        for (var i = 0, ii = this.y.length; i < ii; i++) {
+            this.tags.push(r.tag(this.x, this.y[i], this.values[i] + ' cm', 0, 10).insertBefore(this).attr([{ fill: "#fff" }, { fill: this.symbols[i].attr("fill") }]));
+        }
+    }, function () {
+        this.tags && this.tags.remove();
+    });
+
+    lines.symbols.attr({ r: 6 });
+}
+
+function out(id, val) {
+    document.getElementById(id).innerHTML = val;
+}
+
+function out_cm(id, val) {
+    var metric = ' cm (',
+        imperial = ' in)',
+        inchval = val * 0.3937,
+        meters = 0,
+        feet = 0;
+
+    if (val > 100) {
+        metric = ' meters (';
+        val = val / 100;
+    }
+    if (val < 1) {
+        metric = ' mm (';
+        val = val * 10;
+    }
+
+    if (inchval > 12) {
+        imperial = ' feet)';
+        inchval = inchval / 12;
+    }
+    document.getElementById(id).innerHTML = val.toPrecision() + metric + inchval + imperial;
+}
+
+function choose_preset(val) {
+    document.getElementById('freq').value = val;
+    set_frequency();
+}
+
+function update_presets(f) {
+    var p = document.getElementById("presets");
+    var op = document.createElement("option");
+    op.appendChild(document.createTextNode(f));
+    p.appendChild(op);
+    if (p.childNodes.length > 10) {
+        p.removeChild(p.firstChild);
+    }
+}
+
+function set_frequency() {
+
+    var f = parseFloat(
+        document.getElementById('freq').value
+    ),
+		p = parseFloat(
+		document.getElementById('power').value
+	),
+		V = parseFloat(
+		document.getElementById('voltage').value
+	);
+    update_presets(f);
+
+    var fout = f,
+        magnitude = 0;
+    while (fout > 1000) {
+        magnitude++;
+        fout = fout / 1000;
+        if (magnitude === 3) break;
+    }
+    out('f', fout + {
+        0: ' c/sec',
+        1: ' Kc/sec',
+        2: ' Mc/sec',
+        3: ' Gc/sec'
+        // You have no business using teracycles
+    }[magnitude]);
+    out('p', p);
+	out('V', V);
+
+    var c = p / (2 * f * (V*V)),
+		l = (2 * (V * V))/((Math.PI * Math.PI) * p * f);
+
+    out('c', c);
+    out('l', l);
+
+    return c;
+}
+
+-->
+        </script>
+    
+        <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_HTMLorMML" type="text/javascript"></script>
+
+
+    </head>
+    <body>
+
+<h1>Dollard Tesla Coil Calculator</h1>
+
+<div id="line_chart"></div>
+<p>X axis, frequency; Y axis, secondary diameter, cm</p>
+
+<form onsubmit="set_frequency(); return false">
+    <label for="freq">Frequency: </label>
+    <input id="freq" type="text" name="freq" value="1000000"> c/sec
+    <label for="power">Power: </label>
+	<input id="power" name="freq" value="70"> watts
+    <input type="submit" value="Calculate">
+    <select onchange="choose_preset(this.value)">
+        <option>1000</option>
+        <option>800</option>
+		<option>500</option>
+		<option>200</option>
+        <optgroup id="presets" label="Recent">
+        </optgroup>
+    </select>
+</form>
+
+
+
+
+<h2>Appropriate Capacitance and Inductance</h2>
+<p>`f =` <span class="out" id="f">?</span></p>
+
+<p>`p =` <span class="out" id="p">?</span></p>
+
+<p>`V =` <span class="out" id="V">?</span></p>
+
+<h3>Capacitance</h3>
+<p>`c = p / (2 * f * V^2)`</p>
+<p>`c =` <span class="out" id="c">?</span></p>
+
+<h3>Inductance</h3>
+<p>`l = (2 * V^2)/(pi^2 * p * f)`</p>
+<p>`l =` <span class="out" id="l">?</span></p>
+
+    </body>
+</html>
