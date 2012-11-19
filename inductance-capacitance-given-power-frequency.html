@@ -140,12 +140,13 @@ function set_frequency() {
 
 <form onsubmit="set_frequency(); return false">
     <label for="freq">Frequency: </label>
-    <input id="freq" type="text" name="freq" value="1000000"> c/sec
+    <input id="freq" type="text" name="freq" value="2000"> c/sec
     <label for="power">Power: </label>
 	<input id="power" name="freq" value="70"> watts
 	<input id="voltage" name="voltage" value="2000"> volts
     <input type="submit" value="Calculate">
     <select onchange="choose_preset(this.value)">
+		<option>2000</option>
         <option>1000</option>
         <option>800</option>
 		<option>500</option>
